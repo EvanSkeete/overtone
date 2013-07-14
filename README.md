@@ -2,12 +2,15 @@ Overtone
 ========
 
 Build instructions:
+========
 
 make venv
 activate venv
 pip install flask
 
 run: python overtone/app.py
+
+Deploy instructions:
 ========
 
 Change first line in overtone/app.wsgi to point to venv
