@@ -4,20 +4,16 @@ Overtone
 Build instructions:
 ========
 
-make venv
-
-activate venv
-
-pip install flask
-
-run: python overtone/app.py
+* make venv
+* activate venv
+* pip install flask
+* run: python overtone/app.py
 
 Deploy instructions:
 ========
 
-Change first line in overtone/app.wsgi to point to venv
-
-To use with apache, install mod_wsgi
+* Change first line in overtone/app.wsgi to point to venv
+* To use with apache, install mod_wsgi
 
 Configure apache as follows:
 
@@ -31,12 +27,12 @@ WSGIDaemonProcess app
 WSGIScriptAlias / path-to-app/overtone/app.wsgi
 Alias /static/ path-to-app/overtone/static/
 
-&lt; Directory path-to-app/overtone/ &gt;
+&lt;Directory path-to-app/overtone/&gt;
     WSGIProcessGroup app
     WSGIApplicationGroup %{GLOBAL}
     Order deny,allow
     Allow from all
-&lt;/Directory &gt;
+&lt;/Directory&gt;
 
 </pre>
 
