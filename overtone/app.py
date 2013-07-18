@@ -1,28 +1,55 @@
-from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:please@localhost/overtone'
-db = SQLAlchemy(app)
+from flask import session, redirect, url_for, escape, request
+from flask import render_template
+from init import app
+from model import *
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    email = db.Column(db.String(120), unique=True)
-
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-
-    def __repr__(self):
-        return '<User %r>' % self.username
+@app.route('/main')
+def main():
+    if 'email' in session:
+        email = escape(session['email'])
+        user = escape(session['email']).split('@')[0]
+        return render_template('main.html', user=user)
+    return 'You are not logged in'
 
 
-@app.route("/")
-def hello():
-    return "Hello World!!"
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
+def login(name=None):
+    if request.method == 'POST':
+
+        #TODO: Need to authenticate here before registering the session
+        email = request.form['email']
+        password = request.form['password']
+
+        session['email'] = email
+
+        app.logger.debug(email)
+        app.logger.debug(password)
+
+        return redirect(url_for('main'))
+    return render_template('login.html', name=name)
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    email = request.form['email']
+    password = request.form['password']
+
+    user = User(email, password)
+    db.session.add(user)
+    db.session.commit()
+    app.logger.debug(User.query.all())
+
+    session['email'] = email
+
+    return redirect(url_for('main'))
+
+
+#Secret key for session signing:
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 if __name__ == "__main__":
     app.debug = True
+    db.create_all()
     app.run()

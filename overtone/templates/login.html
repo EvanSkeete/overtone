@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Welcome to Overtone</title>
+		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href='{{ url_for("static", filename="css/login.css") }}'>
+	</head>
+	<body>
+
+		<div class='login-box'>
+
+			{% if name %}
+			<h2>Welcome {{ name }}</h2>
+			{% else %}
+			<h2>Welcome To Overtone!</h2>
+			{% endif %}
+			<h3>Login or <a href='#' class='sign_up'><em>sign up!</em></a></h3>
+			
+			<form action="" method="post" class='login-form'>
+				<input name='email' type='email' placeholder='Email'/>
+				<input name='password' type='password' placeholder='Password'/>
+				<input name='confirm_password' type='password' placeholder='Confirm Password'/>
+				<input type='submit' value='Login' />
+			</form>
+		</div>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src='{{ url_for("static", filename="js/login.js") }}'></script>
+	</body>
+</html>

@@ -1,0 +1,127 @@
+/* ----------------------------
+	Simple reset
+---------------------------- */
+
+html, body, ul, ol, li, form, fieldset, legend
+{
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p { margin-top: 0; }
+
+li { list-style: none; }
+
+table
+{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+th, td
+{
+	text-align: left;
+	vertical-align: top;
+	font-weight: normal;
+}
+
+input, textarea, select
+{
+	font-size: 110%;
+	line-height: 1.1;
+}
+a{
+	text-decoration: none;
+}
+
+/* ----------------------------
+	Main layout
+---------------------------- */
+
+html{
+	background: #000;
+	background: -webkit-linear-gradient(#0c213d,#374666);
+	background: linear-gradient(to bottom, #0c213d 0%,#374666 100%);
+}
+
+body, input {
+   font-family: "HelveticaNeue-UltraLight", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 300;
+   color:#CCC;
+   letter-spacing: 0.1em;
+}
+
+a{
+	color: rgb(140, 180, 255);
+}
+
+a:hover{
+	color: rgb(180, 220, 255);
+}
+
+div, input{
+	box-sizing:border-box;
+}
+
+.login-box{
+	background-color:rgba(0,0,0,0.25);
+	width:40%;
+	height:50%;
+	min-height:400px;
+	margin:10% auto 0 auto;
+	padding:5%;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+	-webkit-transition: min-height 0.2s ease;
+	-moz-transition: min-height 0.2s ease;
+	-o-transition: min-height 0.2s ease;
+	-ms-transition: min-height 0.2s ease;
+	transition: min-height 0.2s ease;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-weight: normal;
+}
+
+h2, h3{
+	font-family: 'Josefin Slab', serif;
+}
+
+h3{
+	color:#CCC;
+	padding: 0 0 0 1em;
+
+}
+.login-box input{
+	margin: 2em 0 0 0;
+	display:block;
+	width:100%;
+	height:3em;
+	border-radius:5px;
+	border: none;
+	background-color: rgba(0, 0, 0, 0.15);
+	font-size: 0.9em;
+	text-indent: 0.5em;
+	box-shadow: inset 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.login-box input:focus{
+	outline: none;
+	border: 1px solid rgb(53, 94, 126);
+}
+
+.login-box [name='confirm_password']{
+	display:none;
+}
+
+.login-box input[type='submit']{
+	background-color: rgba(41, 207, 154, 0.1);
+} 
+
+.login-box input[type='submit']:hover, .login-box input[type='submit']:focus{
+	background-color: rgba(41, 207, 154, 0.2);
+} 
+
+
+
+
