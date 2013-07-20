@@ -53,7 +53,7 @@ song_ownership = db.Table('song_ownership',
     db.Column('song_id', db.Integer, db.ForeignKey('songs.id'))
 )
 
-playlist_to_song = db.Table('palylist_to_song',
+playlist_to_song = db.Table('playlist_to_song',
     db.Column('playlist_id', db.Integer, db.ForeignKey('playlists.id')),
     db.Column('song_id', db.Integer, db.ForeignKey('songs.id'))
 )

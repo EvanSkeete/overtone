@@ -107,6 +107,8 @@ def add_playlist():
 #Secret key for session signing:
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 app.debug = True
+db.create_all()
+
 
 if __name__ == "__main__":
     app.debug = True
