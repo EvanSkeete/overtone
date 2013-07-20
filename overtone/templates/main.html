@@ -2,19 +2,58 @@
 	<head>
 		<title>Welcome to Overtone</title>
 		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href='{{ url_for('static', filename='css/login.css') }}'>
+		<link rel="stylesheet" href='{{ url_for('static', filename='css/main.css') }}'>
 	</head>
 	<body>
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+		    <ul class=flashes>
+		    {% for message in messages %}
+		      <li>{{ message }}</li>
+		    {% endfor %}
+		    </ul>
+		  {% endif %}
+		{% endwith %}
 
-		<div class='login-box'>
+		<div class='main-box'>
 
 			{% if user %}
 			<h2>Welcome back {{ user }}</h2>
 			{% else %}
 			<h2>Hey you didn't enter a username!</h2>
 			{% endif %}
-		
+		<button><a href="/logout">logout</a></button>
 		</div>
 
+		<div class='main-box wide'>
+			<div class='entry_container sub-box'>
+				<form action="" method="post" class='entry-form'>
+					<input type="text" name='data' />
+					<input type='submit' value='Add Entry'/>
+				</form>
+				<ul class='list'>
+					{% for song in songs %}
+					<li>{{song}}</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<div class='playlist_container sub-box'>
+					<form action="" method="post" class='playlist-form'>
+						<input type="text" name='name' />
+						<input type='submit' value='Add Playlist'/>
+					</form>
+					<ul class='playlist-list'>
+						{% for playlist in playlists %}
+						<li>{{playlist}}</li>
+						{% endfor %}
+					</ul>
+			</div>	
+
+			<div class='clear'></div>
+		</div>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src='{{ url_for("static", filename="js/main.js") }}'></script>
 	</body>
 </html>
