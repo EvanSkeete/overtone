@@ -83,7 +83,8 @@ def add_entry():
     song = Song(data, user_id)
     db.session.add(song)
     db.session.commit()
-
+    # db.tablename.insert(field1 = value1, ...) # Add to user-entry table
+ 
     from_db = Song.query.filter_by(user_id=user_id).all()
     app.logger.debug(from_db)
     return json.jsonify(status=True, data=data)
@@ -98,12 +99,14 @@ def add_playlist():
     db.session.add(playlist)
     db.session.commit()
 
+
     from_db = Playlist.query.filter_by(user_id=user_id).all()
     app.logger.debug(from_db)
     return json.jsonify(status=True, name=name)
 
 #Secret key for session signing:
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+app.debug = True
 
 if __name__ == "__main__":
     app.debug = True
