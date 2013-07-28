@@ -1,59 +1,85 @@
 <html>
-	<head>
-		<title>Welcome to Overtone</title>
-		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href='{{ url_for('static', filename='css/main.css') }}'>
-	</head>
-	<body>
-		{% with messages = get_flashed_messages() %}
-		  {% if messages %}
-		    <ul class=flashes>
-		    {% for message in messages %}
-		      <li>{{ message }}</li>
-		    {% endfor %}
-		    </ul>
-		  {% endif %}
-		{% endwith %}
+    <head>
+        <title>Welcome to Overtone</title>
+        <link rel="stylesheet" href='{{ url_for('static', filename='css/main.css') }}'>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    </head>
+    <body class='layout-condensed'>
+        <header>
+            <ul class='navigation left'>
+                <li>Overtone</li>
+            </ul>
+            <ul class='navigation right'>
+                <li><input name='search' placeholder='search' class='search-bar'></input></li>
+                <li><i class='icon-th-large'></i> |</li>
+                <li>Browse |</li>
+                <li>Radio |</li>
+                <li>@evanskeete <i class="icon-caret-down"></i></li>
+            </ul>
+        </header>
 
-		<div class='main-box'>
+        <section class='playlists-container'><br/>
+            <h4>Library</h4>
+             <ul class='playlist-list'>
+                <li><i class="icon-caret-right"></i> My Library</li>
+                <li><i class="icon-caret-right"></i> Recently Added</li>
+                <li><i class="icon-caret-right"></i> Recently Played</li>
+            </ul>
+            <h4>Playlists</h4>
+            <ul class='playlist-list'>
+                <li><i class="icon-caret-right"></i> Playlist 1</li>
+                <li><i class="icon-caret-right"></i> Playlist 2</li>
+                <li><i class="icon-caret-right"></i> Playlist 3</li>
+            </ul>
+        </section>
 
-			{% if user %}
-			<h2>Welcome back {{ user }}</h2>
-			{% else %}
-			<h2>Hey you didn't enter a username!</h2>
-			{% endif %}
-		<button><a href="/logout">logout</a></button>
-		</div>
+        <section class='viewport'>
+            
+            <div width="560" height="315" id='player'></div>
+        </section>
+        <section class='controls'>
+        </section>
+        <section class='library-container'>
+            <!-- Minimal table requirement -->
+            <table class='library-table'>
+               <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                    <th>Time</th>
+                    <th>Plays</th>
+                  </tr>
+               </thead>
+               <tbody class='library-body'>
+                    {% for song in songs %}
+                    <tr data-id='{{song.id}}' data-video-id='{{song.videoId}}'>
+                        <td class='number'></td>
+                        <td class='name'>{{song}}</td>
+                        <td class='artist'>{{song.artist}}</td>
+                        <td class='album'>{{song.album}}</td>
+                        <td class='time'>{{song.time}}</td>
+                        <td class='plays'>{{song.plays}}</td>
+                    </tr>
+                    {% endfor %}
+               </tbody>
+            </table>
 
-		<div class='main-box wide'>
-			<div class='entry_container sub-box'>
-				<form action="" method="post" class='entry-form'>
-					<input type="text" name='data' />
-					<input type='submit' value='Add Entry'/>
-				</form>
-				<ul class='list'>
-					{% for song in songs %}
-					<li>{{song}}</li>
-					{% endfor %}
-				</ul>
-			</div>
+        </section>
+        <section class='overlay'>
+            <div class='search-container'>
+                <h3><strong>Click to play, or drag into library</strong></h3>
+            </div>
 
-			<div class='playlist_container sub-box'>
-					<form action="" method="post" class='playlist-form'>
-						<input type="text" name='name' />
-						<input type='submit' value='Add Playlist'/>
-					</form>
-					<ul class='playlist-list'>
-						{% for playlist in playlists %}
-						<li>{{playlist}}</li>
-						{% endfor %}
-					</ul>
-			</div>	
+        </section>
+        <section class='loading-screen'>
+                <i class="icon-download"></i>
+        </section>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src='{{ url_for("static", filename="js/main.js") }}'></script>
+        <script src='https://www.youtube.com/iframe_api'></script>
+        <script src="https://apis.google.com/js/client.js?onload=OnYoutubeLoad"></script>
 
-			<div class='clear'></div>
-		</div>
-
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src='{{ url_for("static", filename="js/main.js") }}'></script>
-	</body>
+    </body>
 </html>

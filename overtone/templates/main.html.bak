@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>Welcome to Overtone</title>
+		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href='{{ url_for('static', filename='css/main.css') }}'>
+	</head>
+	<body>
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+		    <ul class=flashes>
+		    {% for message in messages %}
+		      <li>{{ message }}</li>
+		    {% endfor %}
+		    </ul>
+		  {% endif %}
+		{% endwith %}
+
+		<div class='main-box'>
+
+			{% if user %}
+			<h2>Welcome back {{ user }}</h2>
+			{% else %}
+			<h2>Hey you didn't enter a username!</h2>
+			{% endif %}
+		<button><a href="/logout">logout</a></button>
+		</div>
+
+		<div class='main-box playlists'>
+			<h2>Playlists</h2>
+			<div class='sub-box'>
+				<h3>Playlists</h3>
+				<ul class='playlist-display display'>
+						{% for playlist in playlists %}
+						<li data-id={{playlist.id}}>{{playlist}}</li>
+						{% endfor %}
+				</ul>
+			</div>
+			<div class='sub-box'>
+				<h3>Songs</h3>
+				{% for playlist in playlists %}
+				<ul class='songs-display display' data-id='{{playlist.id}}'>
+					{% for song in playlist.songs %}
+					<li data-id={{song.id}}>{{song}}</li>
+					{% endfor %}
+				</ul>
+				{% endfor %}
+			</div>
+			<div class='clear'></div>
+		</div>
+
+		<div class='main-box wide'>
+			<div class='entry_container sub-box'>
+				<form action="" method="post" class='entry-form'>
+					<input type="text" name='data' />
+					<input type='submit' value='Add Entry'/>
+				</form>
+				<ul class='list'>
+					{% for song in songs %}
+					<li data-id={{song.id}}>{{song}}</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<div class='playlist_container sub-box'>
+					<form action="" method="post" class='playlist-form'>
+						<input type="text" name='name' />
+						<input type='submit' value='Add Playlist'/>
+					</form>
+					<ul class='playlist-list'>
+						{% for playlist in playlists %}
+						<li data-id={{playlist.id}}>{{playlist}}</li>
+						{% endfor %}
+					</ul>
+			</div>	
+
+			<div class='clear'></div>
+		</div>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src='{{ url_for("static", filename="js/main.js") }}'></script>
+	</body>
+</html>

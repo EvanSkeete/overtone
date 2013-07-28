@@ -50,7 +50,13 @@ def login():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    session.pop('email')
+    app.logger.debug(session)
+    try:
+        session.pop('email')
+        session.pop('user_id')
+    except KeyError:
+        pass
+    app.logger.debug(session)
     return redirect(url_for('login'))
 
 
@@ -69,26 +75,39 @@ def register():
         return json.jsonify(status=False)
 
     app.logger.debug(User.query.all())
+    user_id = User.query.filter_by(email=email).one().id
     session['email'] = email
+    session['user_id'] = user_id
 
     flash('Thanks for registering')
     return json.jsonify(status=True)
 
 
-@app.route('/add_entry', methods=['POST'])
-def add_entry():
-    data = request.form['data']
+@app.route('/add_song', methods=['POST'])
+def add_song():
+    app.logger.debug('adding song')
+    name = request.form['name']
+    videoId = request.form['videoId']
     user_id = session['user_id']
+    artist = request.form['artist']
 
-    song = Song(data, user_id)
+    song = Song(name, videoId, user_id, artist=artist)
     db.session.add(song)
     db.session.commit()
-    # db.tablename.insert(field1 = value1, ...) # Add to user-entry table
- 
     from_db = Song.query.filter_by(user_id=user_id).all()
     app.logger.debug(from_db)
-    return json.jsonify(status=True, data=data)
+    return json.jsonify(status=True, name=name)
 
+@app.route('/modify_song', methods=['POST'])
+def modify_song():
+    app.logger.debug('modifying song')
+    app.logger.debug(request.form)
+    videoId = request.form.get('videoId')
+    song = Song.query.filter_by(videoId=videoId).one()
+    for k in request.form.keys():
+        setattr(song, k, request.form[k])
+        db.session.commit()
+    return json.jsonify(status=True)
 
 @app.route('/add_playlist', methods=['POST'])
 def add_playlist():
@@ -99,9 +118,14 @@ def add_playlist():
     db.session.add(playlist)
     db.session.commit()
 
+    playlist.songs.append(Song('generic song', user_id))
+    db.session.commit()
 
-    from_db = Playlist.query.filter_by(user_id=user_id).all()
-    app.logger.debug(from_db)
+    playlists = Playlist.query.filter_by(user_id=user_id).all()
+    for i in playlists:
+        app.logger.debug(i)
+        app.logger.debug(i.songs)
+
     return json.jsonify(status=True, name=name)
 
 #Secret key for session signing:
